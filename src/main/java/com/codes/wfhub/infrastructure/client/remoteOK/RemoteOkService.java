@@ -1,10 +1,10 @@
-package com.codes.wfhub.infrastructure.client.remotive;
+package com.codes.wfhub.infrastructure.client.remoteOK;
 
 import com.codes.wfhub.domain.entities.Jobs;
 import com.codes.wfhub.domain.entities.extension.SourceType;
 import com.codes.wfhub.domain.repositories.JobsRepository;
-import com.codes.wfhub.infrastructure.client.remotive.dto.RemotiveJobRaw;
-import com.codes.wfhub.mapper.RemotiveJobMapper;
+import com.codes.wfhub.infrastructure.client.remoteOK.dto.RemoteOkJobRaw;
+import com.codes.wfhub.mapper.RemoteOkJobMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,23 +17,23 @@ import java.util.Objects;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class RemotiveService {
+public class RemoteOkService {
 
-    private final RemotiveClient remotiveClient;
-    private final RemotiveJobMapper remotiveJobMapper;
+    private final RemoteOkClient remoteOkClient;
     private final JobsRepository jobsRepository;
+    private final RemoteOkJobMapper remoteOkJobMapper;
 
     @Transactional
-    public void syncRemotive() {
-        List<RemotiveJobRaw> rawJobDtos = remotiveClient.fetchJobs().block();
+    public void syncRemoteOk() {
+        List<RemoteOkJobRaw> rawJobDtos = remoteOkClient.fetchJobs().block();
 
         if (rawJobDtos == null || rawJobDtos.isEmpty()) {
-            log.info("No job data was retrieved from Remotive.");
+            log.info("No job data was retrieved from Remote OK.");
             return;
         }
 
         List<Jobs> incomingJobs = rawJobDtos.stream()
-                .map(remotiveJobMapper::toEntity)
+                .map(remoteOkJobMapper::toEntity)
                 .filter(Objects::nonNull)
                 .toList();
 
@@ -43,7 +43,7 @@ public class RemotiveService {
         for (Jobs job : incomingJobs) {
             var existingOpt = jobsRepository.findByExternalIdAndSource(
                     job.getExternalId(),
-                    SourceType.REMOTIVE
+                    SourceType.REMOTEOK
             );
 
             if (existingOpt.isPresent()) {
@@ -64,7 +64,7 @@ public class RemotiveService {
                 jobsRepository.save(toUpdate);
                 updated++;
             } else {
-                job.setSource(SourceType.REMOTIVE);
+                job.setSource(SourceType.REMOTEOK);
                 job.setFetchedAt(LocalDateTime.now());
                 job.setUpdatedAt(LocalDateTime.now());
                 jobsRepository.save(job);
@@ -72,6 +72,6 @@ public class RemotiveService {
             }
         }
 
-        log.info("Remotive sync done: {} inserted, {} updated", inserted, updated);
+        log.info("Remote OK sync done: {} inserted, {} updated", inserted, updated);
     }
 }

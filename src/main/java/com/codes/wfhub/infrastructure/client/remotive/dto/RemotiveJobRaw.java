@@ -1,5 +1,7 @@
 package com.codes.wfhub.infrastructure.client.remotive.dto;
 
+import java.util.List;
+
 public record RemotiveJobRaw(
         Long id,
         String url,
@@ -12,6 +14,6 @@ public record RemotiveJobRaw(
         String candidate_required_location,
         String salary,
         String description,
-        String tags
+        List<String> tags
 ) {
 }

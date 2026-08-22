@@ -1,3 +1,14 @@
 spring:
   application:
     name: wfhub
+  cache:
+    type: simple
+  datasource:
+    url:
+    username:
+    password:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

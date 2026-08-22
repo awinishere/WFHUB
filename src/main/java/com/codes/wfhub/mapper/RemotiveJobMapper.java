@@ -20,7 +20,7 @@ public class RemotiveJobMapper {
         job.setCompanyLogo(raw.company_logo());
         job.setLocation(raw.candidate_required_location());
         job.setCategories(mapCategory(raw.category()));
-        job.setTags(raw.tags());
+        job.setTags(raw.tags() != null ? String.join(",", raw.tags()) : "");
         job.setDescription(raw.description());
         job.setApplyUrl(raw.url());
         job.setPublishedAt(parseDate(raw.publication_date()));

@@ -47,18 +47,18 @@ public class Jobs {
     private String location;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "jobType", updatable = true, nullable = false)
+    @Column(name = "jobType", updatable = true, nullable = true)
     private JobType jobType;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "categories", updatable = true, nullable = false)
     private CategoriesType categories;
 
-    @Column(name = "tags", updatable = true, nullable = false)
-    private String tags;
-
-    @Column(name = "description", updatable = true, nullable = false)
+    @Column(name = "description", updatable = true, nullable = false, columnDefinition = "TEXT")
     private String description;
+
+    @Column(name = "tags", updatable = true, nullable = false, columnDefinition = "TEXT")
+    private String tags;
 
     @Column(name = "apply_url", updatable = true, nullable = false)
     private String applyUrl;
