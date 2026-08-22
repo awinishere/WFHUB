@@ -1,30 +1,3 @@
 spring:
   application:
-    name: wfhub
-
-  datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:wfhub_db}
-    username: ${POSTGRES_USER:postgres}
-    password: ${POSTGRES_PASSWORD:your_secure_password}
-    driver-class-name: org.postgresql.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-
-  codec:
-    max-in-memory-size: 5MB
-
-app:
-  cron:
-    sync-schedule: "0 0 */6 * * *"
-  clients:
-    remote-ok:
-      url: https://remoteok.com/api
-    remotive:
-      url: https://remotive.com/api/remote-jobs
+    name:
